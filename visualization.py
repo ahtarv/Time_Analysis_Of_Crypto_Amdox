@@ -6,7 +6,7 @@ import pandas as pd  # data manipulation library
 class CryptoVisualizer:
     """visualization utilities for cryptocurrency data"""
     
-    @staticmethod
+    @staticmethod #it belongs to the class but doesnt  need access to the instance or the class itself. ex a regular fucn in a class structure 
     def plot_price_trend(df, ticker, show_ma=True):
         """plot price trend line with optional moving averages"""
         fig = go.Figure()  # create empty figure

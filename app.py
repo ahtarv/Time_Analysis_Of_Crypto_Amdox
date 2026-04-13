@@ -73,12 +73,12 @@ if selected_ticker in crypto_data:
         # price trend chart with moving averages
         st.subheader("price trend")
         fig_price = visualizer.plot_price_trend(df, selected_ticker)
-        st.plotly_chart(fig_price, use_container_width=True)  # display chart
+        st.plotly_chart(fig_price, width='stretch')  # display chart
         
         # candlestick chart for last 90 days
         st.subheader("candlestick chart (last 90 days)")
         fig_candle = visualizer.plot_candlestick(df.tail(90), selected_ticker)
-        st.plotly_chart(fig_candle, use_container_width=True)
+        st.plotly_chart(fig_candle, width='stretch')
         
         # statistics tables in two columns
         st.subheader("statistical summary")
@@ -87,12 +87,12 @@ if selected_ticker in crypto_data:
         with col1:
             st.write("**price statistics**")
             # display statistics as table
-            st.dataframe(pd.DataFrame([stats]).T, use_container_width=True)
+            st.dataframe(pd.DataFrame([stats]).T, width='stretch')
         
         with col2:
             vol_metrics = analyzer.calculate_volatility_metrics(df)
             st.write("**volatility metrics**")
-            st.dataframe(pd.DataFrame([vol_metrics]).T, use_container_width=True)
+            st.dataframe(pd.DataFrame([vol_metrics]).T, width='stretch')
     
     # technical analysis tab - shows volatility, returns, rsi
     elif analysis_type == "technical analysis":
@@ -105,17 +105,17 @@ if selected_ticker in crypto_data:
         # volatility chart shows risk over time
         st.subheader("volatility analysis")
         fig_vol = visualizer.plot_volatility(df, selected_ticker)
-        st.plotly_chart(fig_vol, use_container_width=True)
+        st.plotly_chart(fig_vol, width='stretch')
         
         # returns distribution histogram
         st.subheader("returns distribution")
         fig_returns = visualizer.plot_returns_distribution(df)
-        st.plotly_chart(fig_returns, use_container_width=True)
+        st.plotly_chart(fig_returns, width='stretch')
         
         # returns statistics table
         returns_stats = analyzer.calculate_returns_distribution(df)
         st.write("**returns statistics**")
-        st.dataframe(pd.DataFrame([returns_stats]).T, use_container_width=True)
+        st.dataframe(pd.DataFrame([returns_stats]).T, width='stretch')
         
         # rsi indicator chart (overbought/oversold indicator)
         st.subheader("rsi indicator")
@@ -182,7 +182,7 @@ if selected_ticker in crypto_data:
                 # plot all forecasts together for comparison
                 if forecasts:
                     fig_forecast = visualizer.plot_forecast_comparison(df.tail(90), forecasts, selected_ticker)
-                    st.plotly_chart(fig_forecast, use_container_width=True)
+                    st.plotly_chart(fig_forecast, width='stretch')
                     
                     # display forecast values in table
                     st.subheader("forecast values")
@@ -190,7 +190,7 @@ if selected_ticker in crypto_data:
                         model: data['values'] for model, data in forecasts.items()
                     })
                     forecast_df.index = list(forecasts.values())[0]['dates']
-                    st.dataframe(forecast_df, use_container_width=True)
+                    st.dataframe(forecast_df, width='stretch')
     
     # correlation analysis tab - shows how cryptos move together
     elif analysis_type == "correlation analysis":
@@ -209,12 +209,12 @@ if selected_ticker in crypto_data:
             
             # display correlation heatmap
             fig_corr = visualizer.plot_correlation_heatmap(corr_matrix)
-            st.plotly_chart(fig_corr, use_container_width=True)
+            st.plotly_chart(fig_corr, width='stretch')
             
             # display correlation values in table with color gradient
             st.subheader("correlation matrix")
             st.dataframe(corr_matrix.style.background_gradient(cmap='RdBu', vmin=-1, vmax=1),
-                        use_container_width=True)
+                        width='stretch')
         else:
             st.warning("please select at least 2 cryptocurrencies for correlation analysis")
 

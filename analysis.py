@@ -5,7 +5,7 @@ from scipy import stats  # library for statistical functions
 class CryptoAnalyzer:
     """analyze cryptocurrency data and calculate metrics"""
     
-    @staticmethod
+    @staticmethod #this doesnt need instance, allows for cleaner api and pure funcn input gives output, and these method dont need instacne data
     def calculate_statistics(df, column='close'):
         """calculate basic statistical measures of price data"""
         return {

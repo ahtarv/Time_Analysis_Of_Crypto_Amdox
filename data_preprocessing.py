@@ -9,7 +9,7 @@ class DataPreprocessor:
         """handle missing values using forward fill then backward fill"""
         # forward fill: copy previous value to fill missing data
         # backward fill: copy next value if forward fill didn't work
-        return df.fillna(method='ffill').fillna(method='bfill')
+        return df.ffill().bfill()
     
     @staticmethod
     def calculate_returns(df, column='close'):
@@ -62,5 +62,5 @@ class DataPreprocessor:
         """prepare clean data for time series forecasting models"""
         df_clean = df[[column]].copy()  # create copy with only close price column
         # fill any missing values for model training
-        df_clean = df_clean.fillna(method='ffill').fillna(method='bfill')
+        df_clean = df_clean.ffill().bfill()
         return df_clean

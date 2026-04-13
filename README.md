@@ -25,9 +25,15 @@ pip install -r requirements.txt
 
 ### Run the Streamlit Dashboard
 
+**IMPORTANT:** Use the correct command to launch the app:
+
 ```bash
 streamlit run app.py
 ```
+
+**DO NOT** run `python app.py` directly - this will cause warnings. Streamlit apps must be launched with the `streamlit run` command.
+
+Alternatively, on Windows, double-click `run_app.bat` to start the dashboard.
 
 The dashboard will open in your browser at `http://localhost:8501`
 

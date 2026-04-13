@@ -11,11 +11,11 @@ warnings.filterwarnings('ignore')  # hide warning messages
 class ARIMAForecaster:
     """arima (autoregressive integrated moving average) time series forecasting"""
     
-    def __init__(self, order=(5, 1, 0)):
+    def __init__(self, order=(10, 1, 2)):
         # order = (p, d, q) where:
-        # p = autoregressive terms (past values)
-        # d = differencing order (make data stationary)
-        # q = moving average terms (past errors)
+        # p = 10: autoregressive terms (look at last 10 days for more context)
+        # d = 1: differencing order (make data stationary)
+        # q = 2: moving average terms (use last 2 errors for more flexibility)
         self.order = order
         self.model = None  # placeholder for trained model
         
@@ -36,8 +36,12 @@ class ProphetForecaster:
     """facebook prophet forecasting (handles seasonality well)"""
     
     def __init__(self):
-        # create prophet model with daily and yearly patterns
-        self.model = Prophet(daily_seasonality=True, yearly_seasonality=True)
+        # create prophet model without seasonality for crypto (crypto doesn't follow calendar patterns)
+        self.model = Prophet(
+            daily_seasonality=False,  # crypto doesn't follow daily patterns
+            yearly_seasonality=False,  # or yearly patterns
+            weekly_seasonality=False   # or weekly patterns
+        )
         
     def fit(self, df, column='close'):
         """train prophet model on historical data"""

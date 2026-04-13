@@ -18,8 +18,18 @@ class CryptoDataLoader:
         for file in csv_files:
             # extract ticker name from filename (e.g., 'BTC.csv' becomes 'BTC')
             ticker = os.path.basename(file).replace('.csv', '')
+            
+            # skip summary files that don't have time series data
+            if 'summary' in ticker.lower() or 'analysis' in ticker.lower():
+                continue
+                
             try:
                 df = pd.read_csv(file)  # read csv file into pandas dataframe
+                
+                # check if date column exists (skip files without date column)
+                if 'date' not in df.columns:
+                    continue
+                    
                 df['date'] = pd.to_datetime(df['date'])  # convert date column to datetime format
                 df = df.sort_values('date')  # sort data by date in ascending order
                 df.set_index('date', inplace=True)  # set date as the index for time series analysis
@@ -45,5 +55,11 @@ class CryptoDataLoader:
         """get list of available cryptocurrency tickers from csv files"""
         # find all csv files in directory
         csv_files = glob.glob(os.path.join(self.data_dir, '*.csv'))
-        # extract ticker names from filenames and return sorted list
-        return sorted([os.path.basename(f).replace('.csv', '') for f in csv_files])
+        # extract ticker names from filenames, excluding summary/analysis files
+        tickers = []
+        for f in csv_files:
+            ticker = os.path.basename(f).replace('.csv', '')
+            # skip summary and analysis files
+            if 'summary' not in ticker.lower() and 'analysis' not in ticker.lower():
+                tickers.append(ticker)
+        return sorted(tickers)
